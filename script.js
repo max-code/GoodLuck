@@ -1,15 +1,27 @@
-const phrase = "test"; // Replace with your phrase
+const phrase = "testtesttesttesttesttest"; // Replace with your phrase
 let currentLetterIndex = 0;
 let squareDisplaySecondsTimer, delayBetweenSquaresTimer;
 let showingLetter = false;
 let isGameRunning = false;
-let squareDisplaySeconds = 1.5;
-let delayMaxSeconds = 1;
-
+let squareDisplaySeconds = 0.75;
+let delayBetweenSquaresMaxSeconds = 30;
+const christmasColours = [
+    "#165b33",
+    "#146b3a",
+    "#f8b229",
+    "#ea4630", 
+    "#bb2528"
+];
 
 const squareSize = window.innerWidth > 600 ? 50 : 30; // Adjust size based on screen width
 let x = 0;
 let y = 0;
+
+let goodLuckTextsInterval;
+
+const activeGoodLuckTexts = []; // Array to keep track of active texts
+const maxGoodLuckCount = 5; // Maximum number of texts on screen
+let goodLuckTextsDisplayTimeMilliseconds = 3000;
 
 function showSquare() {
     
@@ -20,11 +32,12 @@ function showSquare() {
         return;
     }
 
-    const delay = Math.random() * 1000 * delayMaxSeconds; // Random delay up to delayMaxSeconds
+    const delay = Math.random() * 1000 * delayBetweenSquaresMaxSeconds; // Random delay up to delayBetweenSquaresMaxSeconds
 
     delayBetweenSquaresTimer = setTimeout(() => {
         const square = document.createElement("div");
         square.className = "square";
+        square.style.backgroundColor = randomChoice(christmasColours)
         positionSquare(square);
         document.getElementById("gameContainer").appendChild(square);
 
@@ -53,7 +66,7 @@ function showSquare() {
 }
 
 document.getElementById("gameContainer").addEventListener("click", function(event) {
-    if (event.target.className !== "square") {
+    if (event.target.className !== "square" && currentLetterIndex < phrase.length) {
         gameOver();
     }
 });
@@ -66,6 +79,7 @@ document.getElementById("restartButton").addEventListener("click", function() {
 function gameOver() {
     clearTimeout(squareDisplaySecondsTimer);
     clearTimeout(delayBetweenSquaresTimer);
+    clearInterval(goodLuckTextsInterval);
     document.getElementById("gameContainer").innerHTML = "";
     document.getElementById("gameOverContainer").style.display = "block";
     currentLetterIndex = 0;
@@ -91,54 +105,57 @@ function resetGame() {
     document.getElementById("gameContainer").innerHTML = "";
     currentLetterIndex = 0;
     isGameRunning = true;
-    setRandomDelayForGoodLuckTexts();
+    goodLuckTextsInterval = setInterval(maintainTexts, 10);
     showSquare();
 }
 
-isGameRunning = true;
-showSquare();
-
-
-function showGoodLuckTexts() {
-    if(currentLetterIndex < phrase.length && isGameRunning){
-        for (let i = 0; i < 3; i++) {
-            createGoodLuckText();
-        }
-        setRandomDelayForGoodLuckTexts();
-    }
+function randomChoice(arr) {
+    return arr[Math.floor(arr.length * Math.random())];
 }
 
+
+
 function createGoodLuckText() {
-    const text = document.createElement("div");
-    text.className = "good-luck";
-    text.textContent = "Good Luck 👍😊👍";
-    positionAndRotateText(text);
-    document.body.appendChild(text);
+    if (activeGoodLuckTexts.length < maxGoodLuckCount) {
+        const text = document.createElement("div");
+        text.className = "good-luck";
+        text.textContent = "Good Luck 👍😊👍";
+        text.style.color = randomChoice(christmasColours);
+        positionAndRotateText(text);
+        document.body.appendChild(text);
 
-    // Animate the text
-    setTimeout(() => {
-        text.style.opacity = "1";
-        text.style.transform += " scale(1.5)";
-    }, 10); // Start animation shortly after appending
+        // Animate the text
+        setTimeout(() => {
+            text.style.opacity = "0.9";
+            text.style.transform += " scale(2.5)";
+        }, 10); // Start animation shortly after appending
 
-    // Remove the text after animation
-    setTimeout(() => {
-        text.remove();
-    }, 1000); // Adjust time as needed
+        setTimeout(() => {
+            text.remove();
+            activeGoodLuckTexts.splice(activeGoodLuckTexts.indexOf(text), 1);
+        }, Math.random() * goodLuckTextsDisplayTimeMilliseconds + 1000); // Between 1 and goodLuckTextsDisplayTimeMilliseconds + 1 seconds
+    }
 }
 
 function positionAndRotateText(text) {
     const x = Math.random() * (window.innerWidth - text.clientWidth);
     const y = Math.random() * (window.innerHeight - text.clientHeight);
-    const rotation = Math.random() * 90 - 45; // Random rotation between -45 to 45 degrees
+    const rotation = Math.random() * 360; // Random rotation between -45 to 45 degrees
     text.style.left = `${x}px`;
     text.style.top = `${y}px`;
     text.style.transform = `rotate(${rotation}deg)`;
 }
 
-function setRandomDelayForGoodLuckTexts() {
-    const delay = Math.random() * 500; // Random delay up to 5 seconds
-    setTimeout(showGoodLuckTexts, delay);
+function maintainTexts() {
+    // Check if more texts need to be added
+    if (isGameRunning && activeGoodLuckTexts.length < maxGoodLuckCount) {
+        const textsToAdd = maxGoodLuckCount - activeGoodLuckTexts.length;
+        for (let i = 0; i < textsToAdd; i++) {
+            createGoodLuckText();
+        }
+    }
 }
 
-setRandomDelayForGoodLuckTexts(); // Start the first appearance with a delay
+goodLuckTextsInterval = setInterval(maintainTexts, 10);
+isGameRunning = true;
+showSquare();

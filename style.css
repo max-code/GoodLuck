@@ -11,7 +11,7 @@ body, html {
     max-width: 90%;
     max-height: 90%;
     z-index: 2; /* Higher z-index for the game container */
-    border: 5px solid red;
+    /* border: 5px solid red; */
     margin-left: 5%;
 }
 
@@ -19,7 +19,6 @@ body, html {
     position: absolute;
     width: 50px;
     height: 50px;
-    background-color: red;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,14 +26,14 @@ body, html {
     font-size: 24px;
     cursor: pointer;
     z-index: 3; /* Highest z-index for squares */
+    border: 3px solid black !important;
 }
 
 .good-luck {
     position: absolute;
-    color: blue;
     font-size: 20px;
     opacity: 0;
-    transition: transform 1s, opacity 1s;
+    transition: transform 5s, opacity 5s;
     will-change: transform, opacity;
     z-index: 1; /* Lower z-index for the texts */
 }
