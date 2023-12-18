@@ -36,12 +36,12 @@ let squareDisplayMilisecondsTimer, delayBetweenSquaresTimer;
 let showingLetter = false;
 let isGameRunning = false;
 const activeGoodLuckTexts = [];
-const maxGoodLuckTextCount = 100;
+const maxGoodLuckTextCount = 50;
 let clickCount = 0; // for easy mode enable
 let startTime = 0;
 
 // Timings
-let squareDisplayMiliseconds = 650;
+let squareDisplayMiliseconds = 700;
 //let delayBetweenSquaresMaxMiliseconds = 45000;
 let delayBetweenSquaresMaxMiliseconds = 5000;
 let goodLuckTextsInterval;
@@ -56,11 +56,10 @@ let christmasColours = [
     "#bb2528"
 ];
 
-let goodLuckTextOpacity = "1";
-let goodLuckTextScale = "scale(3)";
+let goodLuckTextScale = "scale(2)";
 
 // Positions
-let squareSize = window.innerWidth > 600 ? 50 : 40; // Adjust size based on screen width
+let squareSize = window.innerWidth > 600 ? 50 : 35; // Adjust size based on screen width
 let x = 0;
 let y = 0;
 
@@ -168,7 +167,6 @@ function createGoodLuckText() {
     const goodLuckTextDisplayTime = (Math.random() * goodLuckTextsDisplayTimeMilliseconds) + 1000;
 
     setTimeout(() => {
-        text.style.opacity = goodLuckTextOpacity;
         text.style.transform += goodLuckTextScale;
     }, 10);
 
@@ -218,7 +216,6 @@ async function start()
             if(currentTime - startTime <= 10000)
             {
                 console.log("Easy mode enabled");
-                goodLuckTextOpacity = "0.6";
                 goodLuckTextScale = "scale(1.8)";
                 squareDisplayMiliseconds = 1100;
                 goodLuckTextsDisplayTimeMilliseconds = 3000;
