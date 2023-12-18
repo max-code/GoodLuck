@@ -15,17 +15,12 @@ async function loadPhrase() {
 
 window.onload = function() {
     const password = "password"; // Set your password
-    let userInput = prompt("Please enter the password to start the game:");
-
+    let userInput = prompt("Password:");
     if (userInput === password) {
         setTimeout(() => {
-            // Code to execute after 0.1 seconds
-            console.log("0.1 seconds have passed");
         }, 500);
-        start(); // Call the start function if the password is correct
+        start(); 
     } else {
-        alert("Incorrect password. Access denied.");
-        // Optional: Redirect to another page or hide game elements
     }
 };
 
@@ -46,9 +41,9 @@ let clickCount = 0; // for easy mode enable
 let startTime = 0;
 
 // Timings
-let squareDisplayMiliseconds = 750;
+let squareDisplayMiliseconds = 650;
 //let delayBetweenSquaresMaxMiliseconds = 45000;
-let delayBetweenSquaresMaxMiliseconds = 1000;
+let delayBetweenSquaresMaxMiliseconds = 5000;
 let goodLuckTextsInterval;
 let goodLuckTextsDisplayTimeMilliseconds = 5000;
 
@@ -62,7 +57,7 @@ let christmasColours = [
 ];
 
 let goodLuckTextOpacity = "1";
-let goodLuckTextScale = "scale(5)";
+let goodLuckTextScale = "scale(3)";
 
 // Positions
 let squareSize = window.innerWidth > 600 ? 50 : 40; // Adjust size based on screen width
@@ -256,5 +251,3 @@ async function start()
     showSquare();
 
 }
-
-start();
