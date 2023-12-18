@@ -41,9 +41,10 @@ let clickCount = 0; // for easy mode enable
 let startTime = 0;
 
 // Timings
-let squareDisplayMiliseconds = 700;
+let squareDisplayMilisecondsBase = 1200;
 //let delayBetweenSquaresMaxMiliseconds = 45000;
-let delayBetweenSquaresMaxMiliseconds = 5000;
+let delayBetweenSquaresMaxMiliseconds = 1000;
+let squareDisplayReductionFactor = 30;
 let goodLuckTextsInterval;
 let goodLuckTextsDisplayTimeMilliseconds = 5000;
 
@@ -97,11 +98,13 @@ function showSquare() {
         positionSquare(square);
         gameContainer.appendChild(square);
 
+        let squareDisplayTime = squareDisplayMilisecondsBase - (currentLetterIndex*squareDisplayReductionFactor);
+        console.log("Showing square for ", squareDisplayTime)
         // Square wasnt clicked timer
         squareDisplayMilisecondsTimer = setTimeout(() => {
             square.remove();
             gameOver("Game Over", "red");
-        }, squareDisplayMiliseconds);
+        }, squareDisplayTime);
 
         if (!showingLetter){
             square.addEventListener("click", () => { // When square clicked, clear the not clicked timer and show the letter for 1 second
@@ -217,7 +220,7 @@ async function start()
             {
                 console.log("Easy mode enabled");
                 goodLuckTextScale = "scale(1.8)";
-                squareDisplayMiliseconds = 1100;
+                squareDisplayMilisecondsBase = 1100;
                 goodLuckTextsDisplayTimeMilliseconds = 3000;
                 maxGoodLuckTextCount = 10;
             }
