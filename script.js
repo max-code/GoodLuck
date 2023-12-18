@@ -8,14 +8,15 @@ let currentLetterIndex = 0;
 let squareDisplayMilisecondsTimer, delayBetweenSquaresTimer;
 let showingLetter = false;
 let isGameRunning = false;
-let goodLuckTextCount = 0; // Maximum number of texts on screen
+const activeGoodLuckTexts = [];
+const maxGoodLuckTextCount = 100;
 let clickCount = 0; // for easy mode enable
 let startTime = 0;
 
 // Timings
 let squareDisplayMiliseconds = 800;
-let delayBetweenSquaresMaxMiliseconds = 45000;
-// let delayBetweenSquaresMaxMiliseconds = 1000;
+// let delayBetweenSquaresMaxMiliseconds = 45000;
+let delayBetweenSquaresMaxMiliseconds = 1000;
 let goodLuckTextsInterval;
 let goodLuckTextsDisplayTimeMilliseconds = 5000;
 
@@ -122,7 +123,7 @@ function resetGame() {
     gameContainer.innerHTML = "";
     currentLetterIndex = 0;
     isGameRunning = true;
-    goodLuckTextsInterval = setInterval(maintainGooLuckTexts, 10);
+    goodLuckTextsInterval = setInterval(maintainGoodLuckTexts, 10);
     showSquare();
 }
 
@@ -132,9 +133,9 @@ function randomChoice(arr) {
 
 function createGoodLuckText() {
     const text = makeGoodLuckTextHTML();
-    positionAndRotateText(text);
+    positionAndRotateGoodLuckText(text);
     document.body.appendChild(text);
-    goodLuckTextCount += 1;
+    activeGoodLuckTexts.push(text);
 
     const goodLuckTextDisplayTime = (Math.random() * goodLuckTextsDisplayTimeMilliseconds) + 1000;
 
@@ -145,28 +146,30 @@ function createGoodLuckText() {
 
     setTimeout(() => {
         text.remove();
-        goodLuckTextCount -= 1;
+        const index = activeGoodLuckTexts.indexOf(text);
+        if (index > -1) {
+            activeGoodLuckTexts.splice(index, 1);
+        }
+
     }, goodLuckTextDisplayTime); // Between 1 and goodLuckTextsDisplayTimeMilliseconds + 1 seconds
 }
 
-function positionAndRotateText(text) {
-    const x = Math.random() * (window.innerWidth - text.clientWidth);
-    const y = Math.random() * (window.innerHeight - text.clientHeight);
+function positionAndRotateGoodLuckText(text) {
+    const maxWidth = gameContainer.clientWidth;
+    const maxHeight = gameContainer.clientHeight;
+    x = Math.random() * maxWidth;
+    y = Math.random() * maxHeight;
     const rotation = Math.random() * 360; // Random rotation between -45 to 45 degrees
     text.style.left = `${x}px`;
     text.style.top = `${y}px`;
     text.style.transform = `rotate(${rotation}deg)`;
 }
 
-function maintainGooLuckTexts() {
-    // Check if more texts need to be added
-    if (isGameRunning && goodLuckTextCount < 1000) {
-        for (let i = 0; i < 10; i++) {
-            createGoodLuckText();
-        }
+function maintainGoodLuckTexts() {
+    while (isGameRunning && activeGoodLuckTexts.length < maxGoodLuckTextCount) {
+        createGoodLuckText();
     }
 }
-
 
 function start()
 {
@@ -185,6 +188,7 @@ function start()
                 goodLuckTextScale = "scale(1.8)";
                 squareDisplayMiliseconds = 1100;
                 goodLuckTextsDisplayTimeMilliseconds = 3000;
+                maxGoodLuckTextCount = 10;
             }
             clickCount = 0; 
         }
@@ -208,7 +212,7 @@ function start()
         }
     }, 100);
 
-    goodLuckTextsInterval = setInterval(maintainGooLuckTexts, 10);
+    goodLuckTextsInterval = setInterval(maintainGoodLuckTexts, 10);
     isGameRunning = true;
     showSquare();
 
