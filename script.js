@@ -14,8 +14,8 @@ let clickCount = 0; // for easy mode enable
 let startTime = 0;
 
 // Timings
-let squareDisplayMiliseconds = 800;
-// let delayBetweenSquaresMaxMiliseconds = 45000;
+let squareDisplayMiliseconds = 600;
+//let delayBetweenSquaresMaxMiliseconds = 45000;
 let delayBetweenSquaresMaxMiliseconds = 1000;
 let goodLuckTextsInterval;
 let goodLuckTextsDisplayTimeMilliseconds = 5000;
@@ -29,8 +29,8 @@ let christmasColours = [
     "#bb2528"
 ];
 
-let goodLuckTextOpacity = "0.8";
-let goodLuckTextScale = "scale(3)";
+let goodLuckTextOpacity = "1";
+let goodLuckTextScale = "scale(5)";
 
 // Positions
 let squareSize = window.innerWidth > 600 ? 50 : 30; // Adjust size based on screen width
