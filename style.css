@@ -26,12 +26,12 @@ body, html {
     font-size: 50px;
     cursor: pointer;
     z-index: 3; /* Highest z-index for squares */
-    border: 5px dashed black !important;
+    border: 3px solid black !important;
 }
 
 .good-luck {
     position: absolute;
-    font-size: 20px;
+    font-size: 40px;
     opacity: 0;
     transition: transform 5s, opacity 5s;
     will-change: transform, opacity;
@@ -40,8 +40,8 @@ body, html {
 
 @media screen and (max-width: 600px) {
     .square {
-        width: 30px;
-        height: 30px;
+        width: 40px;
+        height: 40px;
         font-size: 18px;
     }
 }

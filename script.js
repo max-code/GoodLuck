@@ -1,9 +1,24 @@
+let phrase;
+async function loadPhrase() {
+    try {
+        const response = await fetch('code.txt');
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.text();
+        const p = data.trim();
+        return p;
+    } catch (error) {
+        console.error('Error fetching the file:', error);
+    }
+}
+
+
 // Const HTML elements
 const gameContainer = document.getElementById("gameContainer");
 const gameOverContainer = document.getElementById("gameOverContainer")
 const gameOverMessage = document.getElementById("gameOverMessage")
 // Game timers/variables
-const phrase = "test-code"; // Replace with your phrase
 let currentLetterIndex = 0;
 let squareDisplayMilisecondsTimer, delayBetweenSquaresTimer;
 let showingLetter = false;
@@ -14,7 +29,7 @@ let clickCount = 0; // for easy mode enable
 let startTime = 0;
 
 // Timings
-let squareDisplayMiliseconds = 600;
+let squareDisplayMiliseconds = 750;
 //let delayBetweenSquaresMaxMiliseconds = 45000;
 let delayBetweenSquaresMaxMiliseconds = 1000;
 let goodLuckTextsInterval;
@@ -33,7 +48,7 @@ let goodLuckTextOpacity = "1";
 let goodLuckTextScale = "scale(5)";
 
 // Positions
-let squareSize = window.innerWidth > 600 ? 50 : 30; // Adjust size based on screen width
+let squareSize = window.innerWidth > 600 ? 50 : 40; // Adjust size based on screen width
 let x = 0;
 let y = 0;
 
@@ -60,7 +75,7 @@ function showSquare() {
     clearTimeout(delayBetweenSquaresTimer);
 
     if (currentLetterIndex >= phrase.length) {
-        gameOver("Well Done.\nI hope you were keeping track of your Amazon code.", "green");
+        gameOver("Well Done. I hope you were keeping track of your Amazon code.", "green");
         return;
     }
 
@@ -171,8 +186,14 @@ function maintainGoodLuckTexts() {
     }
 }
 
-function start()
+async function start()
 {
+
+    // Call the function
+    await loadPhrase().then(p => {
+        phrase = p;
+    });
+
     gameContainer.addEventListener("click", function(event) {
         // Easy mode logic
         const currentTime = new Date().getTime();
