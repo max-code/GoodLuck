@@ -13,11 +13,28 @@ async function loadPhrase() {
     }
 }
 
+window.onload = function() {
+    const password = "password"; // Set your password
+    let userInput = prompt("Please enter the password to start the game:");
+
+    if (userInput === password) {
+        setTimeout(() => {
+            // Code to execute after 0.1 seconds
+            console.log("0.1 seconds have passed");
+        }, 500);
+        start(); // Call the start function if the password is correct
+    } else {
+        alert("Incorrect password. Access denied.");
+        // Optional: Redirect to another page or hide game elements
+    }
+};
+
 
 // Const HTML elements
 const gameContainer = document.getElementById("gameContainer");
 const gameOverContainer = document.getElementById("gameOverContainer")
 const gameOverMessage = document.getElementById("gameOverMessage")
+const gameOverButton = document.getElementById("restartButton")
 // Game timers/variables
 let currentLetterIndex = 0;
 let squareDisplayMilisecondsTimer, delayBetweenSquaresTimer;
@@ -119,6 +136,7 @@ function gameOver(gameOverText, gameOverColour) {
     gameOverContainer.style.display = "block";
     gameOverMessage.textContent = gameOverText;
     gameOverMessage.style.color = gameOverColour;
+    gameOverButton.style.backgroundColor = gameOverColour;
     currentLetterIndex = 0;
     showingLetter = false;
     isGameRunning = false;
