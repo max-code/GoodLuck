@@ -1,0 +1,77 @@
+body, html {
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#gameContainer {
+    position: relative;
+    width: 90vw;
+    height: 90vh;
+    max-width: 90%;
+    max-height: 90%;
+    z-index: 2; /* Higher z-index for the game container */
+    border: 5px solid red;
+    margin-left: 5%;
+}
+
+.square {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 3; /* Highest z-index for squares */
+}
+
+.good-luck {
+    position: absolute;
+    color: blue;
+    font-size: 20px;
+    opacity: 0;
+    transition: transform 1s, opacity 1s;
+    will-change: transform, opacity;
+    z-index: 1; /* Lower z-index for the texts */
+}
+
+@media screen and (max-width: 600px) {
+    .square {
+        width: 30px;
+        height: 30px;
+        font-size: 18px;
+    }
+}
+
+
+#result{
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+#gameOverContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 4;
+}
+
+#gameOverMessage {
+    font-size: 36px;
+    color: red;
+    margin-bottom: 20px;
+}
+
+#restartButton {
+    font-size: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
