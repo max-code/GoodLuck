@@ -13,17 +13,17 @@ async function loadPhrase() {
     }
 }
 
-window.onload = function() {
-    const password = "password"; // Set your password
-    let userInput = prompt("Password:");
-    if (userInput === password) {
-        setTimeout(() => {
-        }, 500);
-        start(); 
-    } else {
-    }
-};
-
+// window.onload = function() {
+//     const password = "p"; 
+//     let userInput = prompt("Password:");
+//     if (userInput === password) {
+//         setTimeout(() => {
+//         }, 500);
+//         start(); 
+//     } else {
+//     }
+// };
+start()
 
 // Const HTML elements
 const gameContainer = document.getElementById("gameContainer");
@@ -36,9 +36,11 @@ let squareDisplayMilisecondsTimer, delayBetweenSquaresTimer;
 let showingLetter = false;
 let isGameRunning = false;
 const activeGoodLuckTexts = [];
-const maxGoodLuckTextCount = 50;
+let maxGoodLuckTextCount = 50;
 let clickCount = 0; // for easy mode enable
 let startTime = 0;
+let goodLuckTextWidth = 400;
+let goodLuckTextHeight = 60;
 
 // Timings
 let squareDisplayMilisecondsBase = 1200;
@@ -80,6 +82,15 @@ function makeGoodLuckTextHTML()
     text.textContent = "Good Luck 👍😊👍";
     text.style.color = randomChoice(christmasColours);
     return text;
+}
+
+function setGoodLuckTextWidthAndHeight()
+{
+    let text = makeGoodLuckTextHTML();
+    document.body.appendChild(text); // Append to DOM
+    goodLuckTextWidth = text.clientWidth; // Get width
+    goodLuckTextHeight = text.clientHeight;
+    document.body.removeChild(text); // Remove if not needed
 }
 
 function showSquare() {
@@ -184,8 +195,8 @@ function createGoodLuckText() {
 }
 
 function positionAndRotateGoodLuckText(text) {
-    const maxWidth = gameContainer.clientWidth;
-    const maxHeight = gameContainer.clientHeight;
+    const maxWidth = gameContainer.clientWidth - goodLuckTextWidth/2;
+    const maxHeight = gameContainer.clientHeight - goodLuckTextHeight/2;
     x = Math.random() * maxWidth;
     y = Math.random() * maxHeight;
     const rotation = Math.random() * 360; // Random rotation between -45 to 45 degrees
@@ -216,11 +227,13 @@ async function start()
         }
         clickCount++;
         if (clickCount >= 30) {
+            console.log("Easy mode enabled");
+
             if(currentTime - startTime <= 10000)
             {
                 console.log("Easy mode enabled");
                 goodLuckTextScale = "scale(1.8)";
-                squareDisplayMilisecondsBase = 1100;
+                squareDisplayMilisecondsBase = 1300;
                 goodLuckTextsDisplayTimeMilliseconds = 3000;
                 maxGoodLuckTextCount = 10;
             }
@@ -246,6 +259,7 @@ async function start()
         }
     }, 100);
 
+    setGoodLuckTextWidthAndHeight();
     goodLuckTextsInterval = setInterval(maintainGoodLuckTexts, 10);
     isGameRunning = true;
     showSquare();
