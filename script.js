@@ -48,10 +48,10 @@ let goodLuckTextWidth = 400;
 let goodLuckTextHeight = 60;
 
 // Timings
-let squareDisplayMilisecondsBase = 1200;
-//let delayBetweenSquaresMaxMiliseconds = 45000;
-let delayBetweenSquaresMaxMiliseconds = 1000;
-let squareDisplayReductionFactor = 30;
+let squareDisplayMilisecondsBase = 1100;
+let squareDisplayReductionFactor = 50;
+let delayBetweenSquaresMaxMiliseconds = 30000;
+//let delayBetweenSquaresMaxMiliseconds = 1000;
 let goodLuckTextsInterval;
 let goodLuckTextsDisplayTimeMilliseconds = 5000;
 
@@ -103,7 +103,7 @@ function showSquare() {
     clearTimeout(delayBetweenSquaresTimer);
 
     if (currentLetterIndex >= phrase.length) {
-        gameOver("Well Done. I hope you were keeping track of your Amazon code.", "green");
+        gameOver("Well Done. I hope you were keeping track of your Netflix code.", "green");
         return;
     }
 
@@ -233,13 +233,12 @@ async function start()
         }
         clickCount++;
         if (clickCount >= 30) {
-            console.log("Easy mode click count reached");
 
             if(currentTime - startTime <= 10000)
             {
-                console.log("Easy mode enabled");
                 goodLuckTextScale = "scale(1.8)";
-                squareDisplayMilisecondsBase = 1300;
+                squareDisplayMilisecondsBase = 1100;
+                squareDisplayReductionFactor = 30;
                 goodLuckTextsDisplayTimeMilliseconds = 3000;
                 maxGoodLuckTextCount = 10;
             }
