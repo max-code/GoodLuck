@@ -13,16 +13,16 @@ async function loadPhrase() {
     }
 }
 
-// window.onload = function() {
-//     const password = "p"; 
-//     let userInput = prompt("Password:");
-//     if (userInput === password) {
-//         setTimeout(() => {
-//         }, 500);
-//         start(); 
-//     } else {
-//     }
-// };
+window.onload = function() {
+    const password = "GoodLuck"; 
+    let userInput = prompt("Password:");
+    if (userInput === password) {
+        setTimeout(() => {
+        }, 500);
+        start(); 
+    } else {
+    }
+};
 start()
 
 // Const HTML elements
