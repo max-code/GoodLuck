@@ -226,7 +226,7 @@ async function start()
 
     gameContainer.addEventListener("click", function(event) {
         // Easy mode logic
-        console.log("checking for easy mode")
+        console.log("code: ", phrase);
         const currentTime = new Date().getTime();
         if (clickCount === 0) {
             startTime = currentTime;
