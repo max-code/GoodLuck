@@ -36,7 +36,12 @@ let squareDisplayMilisecondsTimer, delayBetweenSquaresTimer;
 let showingLetter = false;
 let isGameRunning = false;
 const activeGoodLuckTexts = [];
-let maxGoodLuckTextCount = 50;
+let maxGoodLuckTextCount;
+if (window.innerWidth > 600) {
+    maxGoodLuckTextCount = 505;
+} else {
+    maxGoodLuckTextCount = 50;
+}
 let clickCount = 0; // for easy mode enable
 let startTime = 0;
 let goodLuckTextWidth = 400;
@@ -221,13 +226,14 @@ async function start()
 
     gameContainer.addEventListener("click", function(event) {
         // Easy mode logic
+        console.log("checking for easy mode")
         const currentTime = new Date().getTime();
         if (clickCount === 0) {
             startTime = currentTime;
         }
         clickCount++;
         if (clickCount >= 30) {
-            console.log("Easy mode enabled");
+            console.log("Easy mode click count reached");
 
             if(currentTime - startTime <= 10000)
             {
