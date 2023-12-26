@@ -49,7 +49,7 @@ let goodLuckTextHeight = 60;
 
 // Timings
 let squareDisplayMilisecondsBase = 1100;
-let squareDisplayReductionFactor = 50;
+let squareDisplayReductionFactor = 45;
 let delayBetweenSquaresMaxMiliseconds = 30000;
 //let delayBetweenSquaresMaxMiliseconds = 1000;
 let goodLuckTextsInterval;
@@ -226,7 +226,7 @@ async function start()
 
     gameContainer.addEventListener("click", function(event) {
         // Easy mode logic
-        console.log("code: ", phrase);
+        //console.log("code: ", phrase);
         const currentTime = new Date().getTime();
         if (clickCount === 0) {
             startTime = currentTime;
